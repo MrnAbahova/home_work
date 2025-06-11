@@ -12,5 +12,4 @@ def mask_account_card(info: str) -> str:
     return f"{type_info} {mask_number}"
 
 def get_date(data: str) -> str:
-
-    pass
+    return f"'{data[8:10]}.{data[5:7]}.{data[0:4]}'"

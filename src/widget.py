@@ -2,6 +2,7 @@ from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(info: str) -> str:
+    """ Функция обрабатывает информацию как о картах, так и о счетах"""
     parts = info.split()
     type_info = " ".join(parts[:-1])
     number = parts[-1]
@@ -13,4 +14,5 @@ def mask_account_card(info: str) -> str:
 
 
 def get_date(data: str) -> str:
+    """ Функция, которая принимает на вход строку и возвращает строку с датой  """
     return f"'{data[8:10]}.{data[5:7]}.{data[0:4]}'"

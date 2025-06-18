@@ -8,3 +8,5 @@ def get_mask_account(account: str) -> str:
     """Функция скрывает номер счета и выводит последние цифры"""
     mask_account = "**" + account[-4:]
     return mask_account
+
+# test

@@ -1,6 +1,8 @@
 #from main import filter_by_state, sort_by_date
 
 def filter_by_state(DICTIONARIES, state: list) -> list:
+    ''' Функция возвращает новый список словарей, содержащий только те словари, у которых ключ
+    state соответствует указанному значению '''
     new_dictionaries = []
     for slovar in DICTIONARIES:
         for value in slovar.values():
@@ -11,6 +13,7 @@ def filter_by_state(DICTIONARIES, state: list) -> list:
 #filter_by_state(DICTIONARIES, 'EXECUTED')
 
 def sort_by_date(DICTIONARIES_DATA: list) -> list:
+    ''' Функция возвращает новый список, отсортированный по дате '''
     sorted_dictionaries_data = sorted(DICTIONARIES_DATA, key=lambda x: x['date'], reverse=True)
     #print(sorted_dictionaries_data)
     return sorted_dictionaries_data

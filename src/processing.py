@@ -1,4 +1,6 @@
-def filter_by_state(DICTIONARIES, state):
+#from main import filter_by_state, sort_by_date
+
+def filter_by_state(DICTIONARIES, state: list) -> list:
     new_dictionaries = []
     for slovar in DICTIONARIES:
         for value in slovar.values():
@@ -6,11 +8,11 @@ def filter_by_state(DICTIONARIES, state):
                 new_dictionaries.append(slovar)
     return new_dictionaries
 
-filter_by_state(DICTIONARIES, 'EXECUTED')
+#filter_by_state(DICTIONARIES, 'EXECUTED')
 
-def sort_by_date(DICTIONARIES_DATA):
+def sort_by_date(DICTIONARIES_DATA: list) -> list:
     sorted_dictionaries_data = sorted(DICTIONARIES_DATA, key=lambda x: x['date'], reverse=True)
     #print(sorted_dictionaries_data)
     return sorted_dictionaries_data
 
-sort_by_date(DICTIONARIES_DATA)
+#sort_by_date(DICTIONARIES_DATA)

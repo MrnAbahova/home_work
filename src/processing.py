@@ -10,7 +10,6 @@ def filter_by_state(DICTIONARIES, state: list) -> list:
                 new_dictionaries.append(slovar)
     return new_dictionaries
 
-#filter_by_state(DICTIONARIES, 'EXECUTED')
 
 def sort_by_date(DICTIONARIES_DATA: list) -> list:
     ''' Функция возвращает новый список, отсортированный по дате '''
@@ -18,4 +17,3 @@ def sort_by_date(DICTIONARIES_DATA: list) -> list:
     #print(sorted_dictionaries_data)
     return sorted_dictionaries_data
 
-#sort_by_date(DICTIONARIES_DATA)

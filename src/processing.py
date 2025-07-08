@@ -2,10 +2,10 @@ def filter_by_state(DICTIONARIES, state: list) -> list:
     """Функция возвращает новый список словарей, содержащий только те словари, у которых ключ
     state соответствует указанному значению"""
     new_dictionaries = []
-    for slovar in DICTIONARIES:
-        for value in slovar.values():
+    for dictionary in DICTIONARIES:
+        for value in dictionary.values():
             if value == "EXECUTED":
-                new_dictionaries.append(slovar)
+                new_dictionaries.append(dictionary)
     return new_dictionaries
 
 

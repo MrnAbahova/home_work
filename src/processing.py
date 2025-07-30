@@ -3,9 +3,8 @@ def filter_by_state(dictionaries: list, state: str) -> list:
     state соответствует указанному значению"""
     new_dictionaries = []
     for dictionary in dictionaries:
-        for state in dictionary.values():
-            if state == "EXECUTED":
-                new_dictionaries.append(dictionary)
+        if dictionary.get('state') == state:
+            new_dictionaries.append(dictionary)
     return new_dictionaries
 
 

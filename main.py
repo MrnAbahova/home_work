@@ -3,6 +3,7 @@ from src.widget import get_date,mask_account_card
 from src.generators import filter_by_currency
 from src.transaction_list import transactions
 from src.generators import transaction_descriptions
+from src.generators import card_number_generator
 
 print(get_mask_card_number("7000792289606361"))
 print(get_mask_account("7000792289606361"))
@@ -22,3 +23,6 @@ for cod in usd_transactions:
 descriptions = transaction_descriptions(transactions)
 for _ in range(5):
     print(next(descriptions))
+
+for card_number in card_number_generator(1, 5):
+    print(card_number)

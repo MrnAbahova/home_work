@@ -1,15 +1,20 @@
+def filter_by_state(records: list[dict], state: str = "EXECUTED") -> list[dict]:
+    """
+    Фильтрует список словарей по значению ключа 'state'.
 
-def filter_by_state(dictionaries: list, state: str) -> list:
-    """Функция возвращает новый список словарей, содержащий только те словари, у которых ключ
-    state соответствует указанному значению"""
-    new_dictionaries = []
-    for dictionary in dictionaries:
-        if dictionary.get('state') == state:
-            new_dictionaries.append(dictionary)
-    return new_dictionaries
+    :param records: список словарей
+    :param state: значение для фильтрации (по умолчанию 'EXECUTED')
+    :return: новый список словарей, соответствующих условию
+    """
+    return [record for record in records if record.get("state") == state]
 
 
-def sort_by_date(dictionaries_data: list) -> list:
-    """Функция возвращает новый список, отсортированный по дате"""
-    sorted_dictionaries_data = sorted(dictionaries_data, key=lambda x: x["date"], reverse=True)
-    return sorted_dictionaries_data
+def sort_by_date(records: list[dict], reverse: bool = True) -> list[dict]:
+    """
+    Сортирует список словарей по ключу 'date'.
+
+    :param records: список словарей
+    :param reverse: порядок сортировки (по умолчанию — убывание)
+    :return: отсортированный список словарей
+    """
+    return sorted(records, key=lambda x: x.get("date", ""), reverse=reverse)

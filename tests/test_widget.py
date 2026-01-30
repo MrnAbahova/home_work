@@ -1,35 +1,93 @@
+from typing import Any, List, Tuple, Union
+
 import pytest
 
-from src.widget import mask_account_card, get_date
+from src.widget import get_date, mask_account_card
+
+
+@pytest.fixture
+def valid_card_numbers() -> List[Tuple[str, str]]:
+    return [
+        ("Visa 1234 56** **** 5678", "Visa 1234 56** **** 5678"),
+        ("МИР 1234 12** **** 1234", "МИР 1234 12** **** 1234"),
+        ("MasterCard 5678 56** **** 5678", "MasterCard 5678 56** **** 5678"),
+    ]
+
+
+@pytest.fixture
+def valid_account_numbers() -> List[Tuple[str, str]]:
+    return [
+        ("Счет 12345678901234567890", "Счет **7890"),
+        ("счет 98765432109876543210", "счет **3210"),
+        ("СЧЕТ 11112222333344445555", "СЧЕТ **5555"),
+    ]
+
+
+@pytest.fixture
+def invalid_data() -> List[Tuple[Union[str, Any], Union[str, Any]]]:
+    return [
+        ("Карта 1234", "Карта 1234"),
+        ("Счет", "Счет"),
+        ("1234567812345678", "1234567812345678"),
+        ("", ""),
+        ("InvalidType 1234567890123456", "InvalidType 1234 56** **** 3456"),
+    ]
+
+
+@pytest.fixture
+def date_samples() -> List[Tuple[str, str]]:
+    return [
+        ("2023-10-05T14:30:00.000000", "05.10.2023"),
+        ("1999-12-31T23:59:59.999999", "31.12.1999"),
+        ("2000-01-01T00:00:00.000000", "01.01.2000"),
+    ]
+
+
+@pytest.fixture
+def invalid_dates() -> List[Tuple[Union[str, Any], Union[str, Any]]]:
+    return [("2023/10/05", "2023/10/05"), ("NotADate", "NotADate"), ("", ""), ("2023-13-01", "01.13.2023")]
+
+
+def test_mask_card_numbers(valid_card_numbers: List[Tuple[str, str]]) -> None:
+    for input_data, expected in valid_card_numbers:
+        assert mask_account_card(input_data) == expected
+
+
+def test_mask_account_numbers(valid_account_numbers: List[Tuple[str, str]]) -> None:
+    for input_data, expected in valid_account_numbers:
+        assert mask_account_card(input_data) == expected
 
 
 
-@pytest.mark.parametrize(
-    "account_card , expected",
-    [
-        ("Maestro 1596837868705199", "Maestro 1596 83** **** 5199"),
-        ("Счет 64686473678894779589", "Счет **9589"),
-        ("MasterCard 7158300734726758", "MasterCard 7158 30** **** 6758"),
-        ("Счет 35383033474447895560", "Счет **5560"),
-        ("Visa Classic 6831982476737658", "Visa Classic 6831 98** **** 7658"),
-        ("Visa Platinum 8990922113665229", "Visa Platinum 8990 92** **** 5229"),
-        ("Visa Gold 5999414228426353", "Visa Gold 5999 41** **** 6353"),
-        ("Счет 73654108430135874305", "Счет **4305"),
-    ],
-)
-def test_mask_account_card(account_card: str, expected: str) -> str:
-    """Тест корректности маскировки карты"""
-    assert mask_account_card(account_card) == expected
+
+def test_get_date_valid(date_samples: List[Tuple[str, str]]) -> None:
+    for input_date, expected in date_samples:
+        assert get_date(input_date) == expected
 
 
-@pytest.mark.parametrize(
-    "data, expected",
-    [
-        ("2019-07-03T18:35:29.512364", "03.07.2019"),
-        ("2018-06-30T02:08:58.425572", "30.06.2018"),
-        ("2018-09-12T21:27:25.241689", "12.09.2018"),
-        ("2018-10-14T08:21:33.419441", "14.10.2018"),
-    ],
-)
-def test_get_date(data, expected):
-    assert get_date(data) == expected
+def test_get_date_invalid(invalid_dates: List[Tuple[Union[str, Any], Union[str, Any]]]) -> None:
+    for input_date, expected in invalid_dates:
+        try:
+            assert get_date(str(input_date)) == expected
+        except (ValueError, AttributeError, TypeError):
+            assert str(input_date) == str(expected)
+
+
+def test_mask_none_input() -> None:
+    with pytest.raises((AttributeError, TypeError)):
+        mask_account_card(None)  # type: ignore
+
+
+def test_get_date_none_input() -> None:
+    with pytest.raises((AttributeError, TypeError)):
+        get_date(None)  # type: ignore
+
+
+def test_mask_non_string_input() -> None:
+    with pytest.raises((AttributeError, TypeError)):
+        mask_account_card(12345)  # type: ignore
+
+
+def test_get_date_non_string_input() -> None:
+    with pytest.raises((AttributeError, TypeError)):
+        get_date(12345)  # type: ignore

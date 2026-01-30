@@ -2,17 +2,35 @@ from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(info: str) -> str:
-    """ Функция обрабатывает информацию как о картах, так и о счетах"""
-    parts = info.split()
-    type_info = " ".join(parts[:-1])
-    number = parts[-1]
-    if "счет" in info.lower():
-        mask_number = get_mask_account(number)
+    """
+    Маскирует информацию о карте или счете.
+    """
+    # Разделяем строку на тип и номер
+    parts = info.split(" ", 1)
+    if len(parts) != 2:
+        return info  # некорректный формат, возвращаем как есть
+
+    type_info, number = parts
+    type_info_lower = type_info.lower()
+
+    # Обработка в зависимости от типа
+    if "счет" in type_info_lower:
+        masked_number = get_mask_account(number)
+        return f"{type_info} {masked_number}"
     else:
-        mask_number = get_mask_card_number(number)
-    return f"{type_info} {mask_number}"
+        # Предполагаем, что это карта
+        masked_number = get_mask_card_number(number)
+        return f"{type_info} {masked_number}"
 
 
-def get_date(data: str) -> str:
-    """ Функция, которая принимает на вход строку и возвращает строку с датой  """
-    return f"'{data[8:10]}.{data[5:7]}.{data[0:4]}'"
+def get_date(date_str: str) -> str:
+    """
+    Преобразует строку с датой из формата "YYYY-MM-DDTHH:MM:SS.ssssss"
+    в формат "ДД.ММ.ГГГГ" без использования импортов.
+    """
+    # Разделяем строку по символу 'T'
+    date_part = date_str.split("T")[0]
+    # Разделяем дату по '-'
+    year, month, day = date_part.split("-")
+    # Форматируем в "ДД.ММ.ГГГГ"
+    return f"{day}.{month}.{year}"
